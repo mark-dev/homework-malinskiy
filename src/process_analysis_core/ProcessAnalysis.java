@@ -30,6 +30,7 @@ public class ProcessAnalysis {
         AnalysisInversionMethod inversion  = new AnalysisInversionMethod();
         AnalysisSeriesMethod  series = new AnalysisSeriesMethod();
 
+
          //Генерируем N значений и для них считаем оценки методом инверсий и серий
         System.out.println("\nЗадание2:");
         double[] smallExperementalArray = generator.generateSeries(N);
@@ -37,9 +38,9 @@ public class ProcessAnalysis {
                         +series.calcEstimate(smallExperementalArray)+ "\n\tInversion: "
                         +inversion.calcEstimate(smallExperementalArray));
 
-
         System.out.println("\nЗадание 3:");
-        processAnalysis(generator,processArrayLength,parts,inversion,series);
+        processAnalysis(generator,processArrayLength,parts);
+
         System.out.println("Задание 4:");
         IArrayGenerator generator2 = new RegressionArrayGeneratorModel2(alpha1,alpha2,z1,z2){
             //Функция из модели 2
@@ -48,13 +49,17 @@ public class ProcessAnalysis {
                 return (i - i*i / 2000.0)/1000.0;
             }
         };
-        processAnalysis(generator2,processArrayLength,parts,inversion,series);
+        processAnalysis(generator2,processArrayLength,parts);
     }
+
+
+    //Выполняет задание 3, используя заданный генератор массива
+    //колво элементов которое необходимо сгенерить (processArrayLength)
+    //Разбивает на  parts частей
     private static void processAnalysis(IArrayGenerator generator,
                                         int processArrayLength,
-                                        int parts,
-                                        AnalysisInversionMethod inversion,
-                                        AnalysisSeriesMethod series){
+                                        int parts){
+
         //Генерим  processArrayLength значений
         double[] experementalData = generator.generateSeries(processArrayLength);
 
@@ -68,6 +73,8 @@ public class ProcessAnalysis {
         fillMxAndSigmaArrays(splitted,mxArray,sigmaArray);
 
         //Расчитываем по две оценки для каждого массива
+        AnalysisInversionMethod inversion  = new AnalysisInversionMethod();
+        AnalysisSeriesMethod  series = new AnalysisSeriesMethod();
         System.out.println("MX\n\tInversion: "
                 + inversion.calcEstimate(mxArray)
                 + "\n\tSeries: "+series.calcEstimate(mxArray));
@@ -75,6 +82,8 @@ public class ProcessAnalysis {
                 + inversion.calcEstimate(sigmaArray)
                 + "\n\tSeries: "+series.calcEstimate(sigmaArray));
     }
+    //Заполняет (пустые) массивы с мат ожиданием и отклонением, на основании
+    //списка массивов на которые был разбит исходный массив
     private  static void fillMxAndSigmaArrays(ArrayList<double[]> splitted,double[] mxArray,double[] sigmaArray){
         for(int i=0;i<splitted.size();i++){
             //Для каждой из частей массива
