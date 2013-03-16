@@ -2,6 +2,8 @@ package analyze.impl;
 
 import interfaces.IAnalysisDependenceMethod;
 
+import java.util.Arrays;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,9 +37,9 @@ public class AnalysisInversionMethod implements IAnalysisDependenceMethod {
      */
     private int getInversionByIndex(int index, double[] data) {
         int inversion = 0;
-        double reqElem = data[index];
-        for (int i = index; i < data.length; i++) {
-            if (data[i] < reqElem) {
+        for (int i = (index+1); i < data.length; i++) {
+            //data(index) > data(i) при i > index
+            if (data[index] > data[i]) {
                 inversion++;
             }
         }

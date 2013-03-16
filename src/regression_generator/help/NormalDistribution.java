@@ -59,9 +59,8 @@ public class NormalDistribution {
         }
         return result / Math.sqrt(Math.PI * 2);
     }
-
-    private double f1(double x) // Плотность распределения для  N(0;1)
-    {
-        return (Math.exp((-Math.pow(x, 2)) / 2) / Math.sqrt(2 * Math.PI));
+    // Плотность распределения для  нормального распределения (MX,Sigma)
+    private double f1(double x){
+        return (Math.exp(-Math.pow(x-mx,2)/(2*sigma*sigma)))/(sigma*Math.sqrt((2*Math.PI)));
     }
 }
