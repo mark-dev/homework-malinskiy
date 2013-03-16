@@ -43,7 +43,7 @@ public class NormalDistribution {
                 x1 = 0.5 - Math.log(3 - 3 * R1);
             }
             if (R2 <= f1(x1) / g(x1)) {
-                normalValue = sigma * x1 + mx;
+                normalValue = Math.sqrt(sigma) * x1 + mx;
                 solved = true;
             }
         }
@@ -59,8 +59,9 @@ public class NormalDistribution {
         }
         return result / Math.sqrt(Math.PI * 2);
     }
-    // Плотность распределения для  нормального распределения (MX,Sigma)
-    private double f1(double x){
-        return (Math.exp(-Math.pow(x-mx,2)/(2*sigma*sigma)))/(sigma*Math.sqrt((2*Math.PI)));
+    // Плотность распределения для  N(0;1)
+    private double f1(double x)
+    {
+        return (Math.exp((-Math.pow(x, 2)) / 2) / Math.sqrt(2 * Math.PI));
     }
 }

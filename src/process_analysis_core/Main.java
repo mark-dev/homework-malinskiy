@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class Main {
     public static void main(String[] args) {
-        int N = 80;    //N
+        int N = 70;    //N
         int processArrayLength = 5000; //N1
         int parts = 100; //  N2
         double alpha1 = 0.9;
@@ -39,9 +39,9 @@ public class Main {
         //Генерируем N значений и для них считаем оценки методом инверсий и серий
         System.out.println("\nЗадание2:");
         double[] smallExperementalArray = generator.generateSeries(N);
-        System.out.println("SmallExperementalArray("+N+")\n\tSeries: "
-                +series.calcEstimate(smallExperementalArray)+ "\n\tInversion: "
-                +inversion.calcEstimate(smallExperementalArray));
+        System.out.println("SmallExperementalArray("+N+")\n\tInversion: "
+                +inversion.calcEstimate(smallExperementalArray)+ "\n\tSeries: "
+                +series.calcEstimate(smallExperementalArray));
         /*
         Генерируем processArrayLength(N1) значений, разбиваем на parts(N2) частей
         и считаем оценки для массивов мат ожиданий и отклонения методом инверсий и серий
