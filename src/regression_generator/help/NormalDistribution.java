@@ -1,5 +1,6 @@
 package regression_generator.help;
 
+
 //Нормальное распределение
 // Передаем в конструктор сигму и мат. ожидание
 // метод next возвратит велечину распределенную по нормальному закону.
@@ -20,8 +21,6 @@ public class NormalDistribution {
         }
         return result;
     }
-
-
 
     public double next() {
         boolean solved = false;
@@ -59,9 +58,10 @@ public class NormalDistribution {
         }
         return result / Math.sqrt(Math.PI * 2);
     }
+
     // Плотность распределения для  N(0;1)
-    private double f1(double x)
-    {
+    private double f1(double x) {
         return (Math.exp((-Math.pow(x, 2)) / 2) / Math.sqrt(2 * Math.PI));
     }
+
 }

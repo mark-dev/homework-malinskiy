@@ -4,6 +4,7 @@ import analyze.impl.AnalysisInversionMethod;
 import analyze.impl.AnalysisSeriesMethod;
 import junit.framework.Assert;
 import org.junit.Test;
+import regression_generator.help.DistributionCalcHelper;
 import regression_generator.help.NormalDistribution;
 
 /**
@@ -18,6 +19,7 @@ public class ComplexTests {
     public void testCalcEstimate() throws Exception {
         AnalysisInversionMethod inversion = new AnalysisInversionMethod();
         AnalysisSeriesMethod series = new AnalysisSeriesMethod();
+        NormalDistribution nd = new NormalDistribution(0,1);
         double[] exampleArray = new double[]{5.5,5.1,5.7,5.2,4.8,
                 5.7,5.0,6.5,5.4,5.8,
                 6.8,6.6,4.9,5.4,5.9,
@@ -28,5 +30,18 @@ public class ComplexTests {
         Assert.assertEquals(inversion.calcEstimate(exampleArray),62); //стр 11
         Assert.assertEquals(inversion.calcEstimate(exampleArray2),14);  //стр 9
 
+        int genLength = 1000;
+        int tryCount = 1000;
+        for(int i=0;i<tryCount;i++){
+            Assert.assertEquals(sum(DistributionCalcHelper.calcHistogram(nd.generateArray(genLength),5)),genLength);
+        }
+    }
+    //Сумирует массив целых чисел
+    private int sum(int[] inversions) {
+        int res = 0;
+        for (int i = 0; i < inversions.length; i++) {
+            res = res + inversions[i];
+        }
+        return res;
     }
 }

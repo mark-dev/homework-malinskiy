@@ -4,6 +4,8 @@ import interfaces.IArrayGenerator;
 import regression_generator.help.DistributionCalcHelper;
 import regression_generator.help.NormalDistribution;
 
+import java.util.Arrays;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Mark
@@ -38,6 +40,7 @@ public class RegressionArrayGeneratorModel1 implements IArrayGenerator {
         double[] normal = normalDistGen.generateArray(length);
         //Проверить на сколько "хорошим" получилось нормальное распределение
         System.out.println("\nGaussian distribution info for array with "+length + " values");
+        System.out.println("Histogram: "+ Arrays.toString(DistributionCalcHelper.calcHistogram(normal,5)));
         System.out.println("MX("+"expected: " + M + "): " + DistributionCalcHelper.calcMx(normal));
         System.out.println("Sigma("+ "expected: " + Sigma + "): "+ DistributionCalcHelper.calcSigma(normal)+"\n");
 
