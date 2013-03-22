@@ -24,9 +24,9 @@ public class ComplexTests {
                 5.4,6.8,5.8,6.9,5.5};
         double[] exampleArray2 = new double[]{5,3,8,9,4,1,7,5};
         //Примеры из методички
-        Assert.assertEquals(series.calcEstimate(exampleArray),13);
-        Assert.assertEquals(inversion.calcEstimate(exampleArray),62);
-        Assert.assertEquals(inversion.calcEstimate(exampleArray2),14);
+        Assert.assertEquals(series.calcEstimate(exampleArray),13);  //стр 8
+        Assert.assertEquals(inversion.calcEstimate(exampleArray),62); //стр 11
+        Assert.assertEquals(inversion.calcEstimate(exampleArray2),14);  //стр 9
 
     }
 }
