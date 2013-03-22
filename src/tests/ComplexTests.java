@@ -39,8 +39,8 @@ public class ComplexTests {
     //Сумирует массив целых чисел
     private int sum(int[] inversions) {
         int res = 0;
-        for (int i = 0; i < inversions.length; i++) {
-            res = res + inversions[i];
+        for (int inversion : inversions) {
+            res = res + inversion;
         }
         return res;
     }

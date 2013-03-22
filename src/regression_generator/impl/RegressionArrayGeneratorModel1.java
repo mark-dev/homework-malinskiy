@@ -4,6 +4,10 @@ import interfaces.IArrayGenerator;
 import regression_generator.help.DistributionCalcHelper;
 import regression_generator.help.NormalDistribution;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 
 /**
@@ -15,15 +19,15 @@ import java.util.Arrays;
  */
 public class RegressionArrayGeneratorModel1 implements IArrayGenerator {
     //Параметры для нормального распределения
-    private static double M = 0.0;
-    private static double Sigma = 1.0;
+    private static final double M = 0.0;
+    private static final double Sigma = 1.0;
     //Z(i) = alpha1*z1+alpha2*z2 + normalDistribution(M,Sigma)
     //Начальные коэффициенты(дано)
-    private double alpha1;
-    private double alpha2;
+    private final double alpha1;
+    private final double alpha2;
     //Два начальных члена последовательности
-    private double z1;
-    private double z2;
+    private final double z1;
+    private final double z2;
 
     public RegressionArrayGeneratorModel1(double alpha1, double alpha2, double z1, double z2) {
         this.alpha1 = alpha1;
@@ -39,10 +43,10 @@ public class RegressionArrayGeneratorModel1 implements IArrayGenerator {
         result[1] = z2;
         double[] normal = normalDistGen.generateArray(length);
         //Проверить на сколько "хорошим" получилось нормальное распределение
-        System.out.println("\nGaussian distribution info for array with "+length + " values");
-        System.out.println("Histogram: "+ Arrays.toString(DistributionCalcHelper.calcHistogram(normal,5)));
-        System.out.println("MX("+"expected: " + M + "): " + DistributionCalcHelper.calcMx(normal));
-        System.out.println("Sigma("+ "expected: " + Sigma + "): "+ DistributionCalcHelper.calcSigma(normal)+"\n");
+        System.out.println("\nGaussian distribution info for array with " + length + " values");
+        System.out.println("Histogram: " + Arrays.toString(DistributionCalcHelper.calcHistogram(normal, 5)));
+        System.out.println("MX(" + "expected: " + M + "): " + DistributionCalcHelper.calcMx(normal));
+        System.out.println("Sigma(" + "expected: " + Sigma + "): " + DistributionCalcHelper.calcSigma(normal) + "\n");
 
         for (int i = 2; i < length; i++) {
             result[i] = nextArrayValue(i, result, normal);
@@ -51,11 +55,12 @@ public class RegressionArrayGeneratorModel1 implements IArrayGenerator {
     }
 
     //Возвращает i-ое значение регрессионного массива
-    protected double nextArrayValue(int i, double[] resultArray, double[] normalDistArray) {
+    double nextArrayValue(int i, double[] resultArray, double[] normalDistArray) {
         return nextArrayValueModel1(i, resultArray, normalDistArray);
     }
+
     //Функция по умолчанию для модели1
-    protected final double nextArrayValueModel1(int i, double[] resultArray, double[] normalDistArray) {
+    final double nextArrayValueModel1(int i, double[] resultArray, double[] normalDistArray) {
         return alpha1 * resultArray[i - 1] +
                 alpha2 * resultArray[i - 2] +
                 normalDistArray[i];

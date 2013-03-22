@@ -6,8 +6,8 @@ package regression_generator.help;
 // метод next возвратит велечину распределенную по нормальному закону.
 public class NormalDistribution {
 
-    double sigma;
-    double mx;
+    private final double sigma;
+    private final double mx;
 
     public NormalDistribution(double m, double sx) {
         mx = m;
@@ -22,10 +22,9 @@ public class NormalDistribution {
         return result;
     }
 
-    public double next() {
+    double next() {
         boolean solved = false;
         double x1 = 0;
-        double x2 = 0;
         double normalValue = 0;
         while (!solved) {
             double R1 = Math.random();

@@ -7,6 +7,7 @@ import regression_generator.impl.RegressionArrayGeneratorModel1;
 import regression_generator.help.DistributionCalcHelper;
 import regression_generator.impl.RegressionArrayGeneratorModel2;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -57,7 +58,7 @@ public class Main {
             //Функция из модели 2
             @Override
             protected double additionalFunc(int i) {
-                return (i - i*i / 2000.0)/1000.0;
+                return (i - Math.pow(i,2) / 2000.0)*0.001;
             }
         };
         processAnalysis(generator2,processArrayLength,parts);
@@ -71,7 +72,8 @@ public class Main {
 
         //Генерим  processArrayLength значений
         double[] experementalData = generator.generateSeries(processArrayLength);
-
+        File f = new File("out/"+generator.toString());
+       DistributionCalcHelper.saveToFile(experementalData, f);
         //Разбиваем на части
         ArrayList<double[]> splitted = splitByParts(experementalData,parts);
 

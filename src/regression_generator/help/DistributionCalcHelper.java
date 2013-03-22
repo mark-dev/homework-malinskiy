@@ -1,5 +1,10 @@
 package regression_generator.help;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Mark
@@ -10,8 +15,8 @@ package regression_generator.help;
 public class DistributionCalcHelper {
     public static double calcMx(double[] array) {
         double m = 0;
-        for (int i = 0; i < array.length; i++) {
-            m = m + array[i];
+        for (double anArray : array) {
+            m = m + anArray;
         }
         return m / array.length;
     }
@@ -19,8 +24,8 @@ public class DistributionCalcHelper {
     public static double calcSigma(double[] array) {
         double mx = calcMx(array);
         double sum = 0;
-        for (int i = 0; i < array.length; i++) {
-            sum = sum + Math.pow((array[i] - mx), 2);
+        for (double anArray : array) {
+            sum = sum + Math.pow((anArray - mx), 2);
         }
         return sum / array.length;
     }
@@ -28,22 +33,17 @@ public class DistributionCalcHelper {
         double min = min(array);
         double max = max(array);
         double step = (max - min) / parts;
-        System.out.println("min: " + min(array));
-        System.out.println("max: " + max(array));
-        System.out.println("step: "+step);
         int[] histValues = new int[parts];
         for (int i = 0; i < histValues.length; i++) {
             int count = 0;   //Колво попаданий в текущий промежуток
             double right = min + step*(i+1);
             double left = min + step*(i);
-            for (int j = 0; j < array.length; j++) {
-                if(right>array[j] && array[j]>left){
+            for (double anArray : array) {
+                if (right > anArray && anArray > left) {
                     count++;
-                }
-                else if(i == 0 && array[j] == min){
+                } else if (i == 0 && anArray == min) {
                     count++;
-                }
-                else if(i == histValues.length -1 && array[j] == max){
+                } else if (i == histValues.length - 1 && anArray == max) {
                     count++;
                 }
             }
@@ -51,7 +51,7 @@ public class DistributionCalcHelper {
         }
         return histValues;
     }
-    public static double min(double[] array) {
+    private static double min(double[] array) {
         double min = array[0];
         for (int i = 1; i < array.length; i++) {
             if (array[i] < min) {
@@ -61,7 +61,7 @@ public class DistributionCalcHelper {
         return min;
     }
 
-    public static double max(double[] array) {
+    private static double max(double[] array) {
         double max = array[0];
         for (int i = 1; i < array.length; i++) {
             if (array[i] > max) {
@@ -69,5 +69,23 @@ public class DistributionCalcHelper {
             }
         }
         return max;
+    }
+    public static void saveToFile(double[] array, File f) {
+        if(!f.exists()){
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
+        try {
+            PrintWriter pw = new PrintWriter(f);
+            for (double anArray : array) {
+                pw.println(anArray);
+            }
+            pw.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 }
