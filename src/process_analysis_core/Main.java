@@ -1,11 +1,13 @@
 package process_analysis_core;
 
-import analyze.impl.AnalysisInversionMethod;
-import analyze.impl.AnalysisSeriesMethod;
-import interfaces.IArrayGenerator;
-import regression_generator.impl.RegressionArrayGeneratorModel1;
-import regression_generator.help.DistributionCalcHelper;
-import regression_generator.impl.RegressionArrayGeneratorModel2;
+
+
+import oed.analyze.impl.AnalysisInversionMethod;
+import oed.analyze.impl.AnalysisSeriesMethod;
+import oed.interfaces.IArrayGenerator;
+import oed.regression_generator.help.DistributionCalcHelper;
+import oed.regression_generator.impl.RegressionArrayGeneratorModel1;
+import oed.regression_generator.impl.RegressionArrayGeneratorModel2;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,12 +22,12 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
         int N = 70;    //N
-        int processArrayLength = 5000; //N1
+        int processArrayLength = 500000; //N1
         int parts = 100; //  N2
         double alpha1 = 0.9;
         double alpha2 = -0.6;
         //первые два члена регрессионной модели
-        double z1 = -0.2;
+        double z1 = -0.5;
         double z2 = 0.5;
 
        processLab1(N,processArrayLength,parts,alpha1,alpha2,z1,z2);
@@ -34,7 +36,7 @@ public class Main {
     private static void processLab1(int N,int processArrayLength,int parts,double alpha1,double alpha2,double z1,double z2){
         IArrayGenerator generator = new RegressionArrayGeneratorModel1(alpha1,alpha2,z1,z2);
         AnalysisInversionMethod inversion  = new AnalysisInversionMethod();
-        AnalysisSeriesMethod  series = new AnalysisSeriesMethod();
+        AnalysisSeriesMethod series = new AnalysisSeriesMethod();
 
 
         //Генерируем N значений и для них считаем оценки методом инверсий и серий
@@ -81,6 +83,8 @@ public class Main {
         // сохраняем в массив
         double[] mxArray = new double[splitted.size()];
         double[] sigmaArray = new double[splitted.size()];
+        System.out.println("mxLen: "+mxArray.length);
+        System.out.println("sigma Len: "+sigmaArray.length);
         fillMxAndSigmaArrays(splitted,mxArray,sigmaArray);
 
         //Расчитываем по две оценки для каждого массива
@@ -104,21 +108,5 @@ public class Main {
             mxArray[i] = DistributionCalcHelper.calcMx(partArray);
             sigmaArray[i] = DistributionCalcHelper.calcSigma(partArray);
         }
-    }
-    //Разбивает массив original на части размером parts
-    private  static ArrayList<double[]> splitByParts(double[] original,int parts){
-        if(original.length % parts !=0){
-            throw new IllegalArgumentException("невозможно разделить массив на равные части(не делится нацело)");
-        }
-        ArrayList<double[]> result = new ArrayList<double[]>();
-        for(int i=0;i<original.length;i = i + parts){
-        //Копируем в tempArray начиная с позиции 0
-        //массив original начиная с индекса i
-        //длинной parts
-         double[] tempArray = new double[parts];
-         System.arraycopy(original, i, tempArray, 0, parts);
-         result.add(tempArray);
-        }
-        return result;
     }
 }
